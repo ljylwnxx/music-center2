@@ -189,9 +189,7 @@ export default {
       volume: 10,
       saveVolume: 10,
       imgInfo: {
-        imgUrl:
-          // 'https://cdn.jsdelivr.net/gh/crazybox521/blogImg/music.jpg',
-          require('../../../assets/images/defaultPic.png'),
+        imgUrl: '/defaultPic.png',
         name: '未知',
         author: '未知歌手名'
       },

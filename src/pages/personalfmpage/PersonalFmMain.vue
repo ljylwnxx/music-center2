@@ -67,7 +67,7 @@ export default {
   data () {
     return {
       musicInfo: {
-        defaultMusicPic: require('../../assets/images/defaultPic.png'),
+        defaultMusicPic: '/defaultPic.png',
         musicName: '未知歌名',
         author: {
           authorId: 0,

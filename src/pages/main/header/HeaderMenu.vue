@@ -189,9 +189,9 @@ export default {
       historySearchList: [],
       showInfoTip: DEFAULT_VISIBLE,
       suggestInfo: {},
-      url: require('../../../assets/images/hi-dog-lit.gif'),
-      logoImage: require('../../../assets/images/music-logo.png'),
-      avatar: require('../../../assets/images/defaultPic.png')
+      url: '/hi-dog-lit.gif',
+      logoImage: '/music-logo.png',
+      avatar: '/defaultPic.png'
     }
   },
   computed: {
