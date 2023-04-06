@@ -7,7 +7,6 @@
           <img
             class="img img-h swiper-img"
             :src="item.imageUrl"
-            @click="openUrl(item.url)"
           />
         </el-carousel-item>
       </el-carousel>
@@ -60,13 +59,6 @@ export default {
     this.getRecSongsList(10)
   },
   methods: {
-    openUrl (url) {
-      if (url !== null) {
-        window.open(url)
-      } else {
-        this.$message.error('没有链接')
-      }
-    },
     goToView () {
       this.$router.push({ path: '/playlist/' })
     },

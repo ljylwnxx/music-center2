@@ -17,9 +17,6 @@
       <div class="player-content">
         <!-- 按钮 -->
         <div class="player-button">
-          <button class="player-btn">
-            <i class="el-icon el-icon-s-operation"></i>
-          </button>
           <!-- 上一首按钮 -->
           <button class="player-btn" @click="trrigerMusic(musicDetail.lastId)">
             <i class="el-icon el-icon-caret-left"></i>
@@ -56,14 +53,6 @@
       </div>
       <!-- 下载声音按钮 -->
       <div class="player-otherbutton">
-        <!-- 下载按钮 -->
-        <div class="otherbutton-download">
-          <i
-            class="el-othericon el-icon-download pointer"
-            @click="downloadMusic()"
-          >
-          </i>
-        </div>
         <!-- 声音 -->
         <div class="button-volume">
           <div class="volume-iconfont" @click="isMute = !isMute">
@@ -325,35 +314,6 @@ export default {
     // 播放
     playClick () {
       this.$store.commit('setPlayState', !this.isPlay)
-    },
-    // 下载音乐
-    downloadMusic () {
-      this.download(
-        this.musicDetail.musicUrl,
-        `${this.musicDetail.musicName}-${this.musicDetail.authorName}`
-      )
-    },
-    download (url, fileName) {
-      httpGet(url, { responseType: 'blob' })
-        .then((res) => {
-          let link = document.createElement('a')
-          link.href = window.URL.createObjectURL(res.data)
-          link.href = link
-          link.download = fileName
-          document.body.appendChild(link)
-          link.click()
-          document.body.removeChild(link)
-          this.$message({
-            message: `${fileName}下载成功`,
-            type: 'success'
-          })
-        })
-        .catch((e) => {
-          this.$message({
-            message: `下载失败`,
-            type: 'error'
-          })
-        })
     },
     // 改变音量
     changeVolume () {

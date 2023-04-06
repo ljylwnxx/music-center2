@@ -96,12 +96,6 @@ export default new Router({
           component: PlayListDetail,
           props: true
         },
-        {
-          path: '/playlistdetail',
-          name: 'playlist',
-          component: PlayListDetail,
-          props: true
-        },
         // 专辑详情页
         {
           path: 'albumdetail/:id',

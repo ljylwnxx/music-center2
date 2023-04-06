@@ -8,7 +8,7 @@
       class="pointer"
       v-if="isDisplay"
       @row-dblclick="playMusic"
-      empty-text="当前没有音乐，请登录哦"
+      empty-text="当前没有找到音乐哦"
     >
       <!-- 序号 -->
       <el-table-column type="index" width="50">

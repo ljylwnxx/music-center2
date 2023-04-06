@@ -199,7 +199,7 @@ export default {
       )
     },
     ImgUrl () {
-      return this.info.coverImgUrl ? `${this.info.coverImgUrl}` : ''
+      return this.info.coverImgUrl ? `${this.info.coverImgUrl}` : '/defaultPic.png'
     },
     list () {
       return this.playList.filter((item) => item.musicName.match(this.key))

@@ -1,6 +1,6 @@
 <template>
   <div class="artist-detail mtop-20">
-    <el-skeleton :loading="isLoading" animated></el-skeleton>
+    <el-skeleton :loading="isLoading" animated>
     <!-- 骨架屏 -->
        <template slot="template">
         <el-skeleton-item variant="image" style="width: 180px; height: 180px" />
@@ -22,7 +22,7 @@
        </template>
        <template>
         <!-- 歌手相关信息 -->
-      <div class="artist-info">
+      <div class="artist-info" style="display: flex;">
         <!-- 图片展示 -->
         <div class="img-wrap">
           <img
@@ -34,23 +34,26 @@
         <div class="info">
           <!-- 歌手姓名,粉丝数,身份,单曲数,专辑数,mv数 -->
           <div class="info-detail">
-            <div class="font-24 font-bold">
-              {{ artistInfo.name }}
+            <div class="info-name">
+              <!-- 歌手姓名 -->
+              <div class="font-24 font-bold">
+                {{ artistInfo.name }}
+              </div>
+              <!--个人主页按钮  -->
+              <div class="info-btn">
+                <button class="btn btn-white mleft-10" v-if="showPriMsg" @click="toUserDetail">
+                  <i class="el-icon-user"></i>
+                  个人主页
+                </button>
+              </div>
             </div>
-            <span class="font-14 identify">身份:{{ identify }}</span>
+            <span class="font-14 identify">身份:{{ identify || '暂无'}}</span>
             <div class="artist-count">
               <span class="font-14">单曲数:{{ artistInfo.musicSize }}</span>
               <span class="mleft-20 font-14">专辑数:{{ artistInfo.albumSize }}</span>
               <span class="mleft-20 font-14">MV数:{{ artistInfo.mvSize }}</span>
             </div>
 
-          </div>
-          <!--收藏，个人主页按钮  -->
-          <div class="info-btn">
-            <button class="btn btn-white mleft-10" v-if="showPriMsg" @click="toUserDetail">
-              <i class="el-icon-user"></i>
-              个人主页
-            </button>
           </div>
         </div>
       </div>
@@ -66,7 +69,6 @@
 <script>
 import {
   getArtistDetail,
-  getSubArtists,
   getArtistFollowCount
 } from '@/api/api_artist'
 import ArtTabsMenu from '../../components/menu/ArtTabsMenu'
@@ -91,19 +93,13 @@ export default {
         musicSize: 0,
         mvSize: 0
       },
-      imgUrl:
-        'http://p4.music.126.net/LL43QzRrox3PzXblIwfSUQ==/109951165995568722.jpg',
+      imgUrl: '/defaultPic.png',
       showPriMsg: false,
       subList: [],
       userId: 0,
       fansCount: 0,
       identify: '',
       isLoading: true
-    }
-  },
-  computed: {
-    isSub () {
-      return this.subList.findIndex((item) => Number(item.id) === Number(this.id)) !== -1
     }
   },
   watch: {
@@ -113,7 +109,6 @@ export default {
   },
   created () {
     this.getArtistDetail()
-    this.getSubArtists()
   },
   methods: {
     // 获取歌手详情
@@ -121,11 +116,11 @@ export default {
       this.isLoading = true
       const res = await getArtistDetail(this.id)
       if (res.data.code !== 200) { return }
+      console.log(res, 'res')
       this.artistInfo = Object.freeze(res.data.data.artist)
       this.showPriMsg = Object.freeze(res.data.data.showPriMsg)
-      this.identify = res.data.data.identify.imageDesc
+      this.identify = res.data.data?.identify?.imageDesc
       if (this.showPriMsg) { this.userId = res.data.data.user.userId }
-      this.getSubArtists()
       this.getArtistFollowCount()
       this.isLoading = false
     },
@@ -133,13 +128,6 @@ export default {
     async getArtistFollowCount () {
       const res = await getArtistFollowCount(this.id)
       this.fansCount = res.data.data.fansCnt
-    },
-    // 收藏的歌手列表
-    async getSubArtists () {
-      if (!this.$store.state.isLogin) { return }
-      const res = await getSubArtists()
-      if (res.data.code !== 200) { return }
-      this.subList = Object.freeze(res.data.data)
     },
     // 用户详情页
     toUserDetail () {
@@ -151,6 +139,9 @@ export default {
 </script>
 
 <style scoped>
+.info-name {
+  display: flex;
+}
 .artist-detail {
    width: 90%;
    margin: 0 auto;

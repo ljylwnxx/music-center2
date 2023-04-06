@@ -2,14 +2,8 @@ import { httpGet } from '@/utils/axios.js'
 // 获取歌手分类列表
 export const getArtistList = ({limit, offset, type, area, initial}) => httpGet('/api/artist/list', {limit, offset, type, area, initial})
 
-// 收藏的歌手列表
-export const getSubArtist = () => httpGet('/api/artist/sublist')
-
 // 获取歌手详情
 export const getArtistDetail = (id) => httpGet('/api/artist/detail', {id})
-
-// 收藏的歌手列表
-export const getSubArtists = () => httpGet('/api/artist/sublist')
 
 // 收藏/取消收藏歌手
 export const subArtists = (id, t) => httpGet('/api/artist/sub', {id, t})
