@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import InfoList from '../../../../components/list/InfoList'
+import InfoList from '../../components/list/InfoList'
 import { getNewTopMusic } from '@/api/api_music'
 import {tranferNewSongMusicData} from '@/utils/constant'
 export default {

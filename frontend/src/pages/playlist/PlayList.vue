@@ -127,7 +127,7 @@ import {
   PLAYLIST_QUERYINFO_OFFSET,
   PLAYLIST_QUERYINFO_ORDER,
   PLAYLIST_DEFAULT_VISIBLE,
-  PLAYLIST_DEFAULT_HASHIGHINFO} from './constant'
+  PLAYLIST_DEFAULT_HASHIGHINFO} from '../../pages/constant'
 export default {
   name: 'PlayList',
   props: {
@@ -237,6 +237,11 @@ export default {
 </script>
 
 <style scoped>
+.personal-recom {
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 20px
+}
 .back-img {
   z-index: 1;
   width: 100%;

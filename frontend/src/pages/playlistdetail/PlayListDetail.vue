@@ -38,8 +38,6 @@
                 <Tag text="歌单"></Tag>
                 <span class="mleft-12 font-20 font-bold">{{ info.name }}</span>
                 <span
-                  v-if="showEditIcon"
-                  @click="toPlayListEdit"
                   class="mleft-10 font-18 pointer"
                   style="color: #a3a3a3"
                 >
@@ -186,12 +184,6 @@ export default {
     Collectors
   },
   computed: {
-    showEditIcon () {
-      return (
-        this.$store.state.profile.userId === this.creator.userId &&
-        this.info.specialType === 0
-      )
-    },
     isShowMoreBtn () {
       return (
         this.playList.length < this.info.trackCount &&
@@ -273,9 +265,6 @@ export default {
       type = type + 1
       if (this.showtab === type) { return }
       this.showtab = type
-    },
-    toPlayListEdit () {
-      this.$router.push('/playlistedit/' + this.id)
     },
     toUserDetail (item) {
       if (typeof item === 'object') {

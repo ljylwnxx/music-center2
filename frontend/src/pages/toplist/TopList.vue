@@ -72,7 +72,7 @@
 import { getPlayListDetail, getTopList } from '@/api/api_playlist'
 import ImgList from '@/components/list/ImgList.vue'
 import { tranferMusicData } from '@/utils/constant'
-import { PLAYLIST_SLICE, TOPLIST_SLICE } from './constant'
+import { PLAYLIST_SLICE, TOPLIST_SLICE } from '../../pages/constant'
 export default {
   name: 'TopList',
   data () {
@@ -125,6 +125,11 @@ export default {
 </script>
 
 <style scoped>
+.top-list{
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 20px
+}
   .offocial-item {
   margin-bottom: 20px;
   }

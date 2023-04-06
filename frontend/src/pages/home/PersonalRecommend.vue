@@ -1,5 +1,5 @@
 <template>
-  <div class="personal-recommend">
+  <div class="personal-recommend mtop-20">
     <!-- 轮播图 -->
     <div class="swiper">
       <el-carousel :interval="4000" type="card" height="200px">

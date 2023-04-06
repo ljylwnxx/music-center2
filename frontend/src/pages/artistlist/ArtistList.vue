@@ -1,5 +1,5 @@
 <template>
-  <div class="artist-list">
+  <div class="artist-list mtop-20">
     <!-- 歌手分类列表 -->
     <div class="tag-wrapper" ref="tagRef">
       <!-- 语种 -->
@@ -56,14 +56,14 @@
 </template>
 
 <script>
-import ImgList from '../../../components/list/ImgList'
+import ImgList from '../../components/list/ImgList'
 import { getArtistList } from '@/api/api_artist'
 import artistData from '@/listData/artistData'
 import {QUERYINFO_INITIAL,
   QUERYINFO_TYPE,
   QUERYINFO_AREA,
   ARTIST_QUERYINFO_LIMIT
-} from './constant'
+} from '../../pages/constant'
 import { MODE_FIRST, DEFAULT_OFFSET } from '@/utils/constant'
 export default {
   name: 'ArtistList',
@@ -131,6 +131,10 @@ export default {
 </script>
 
 <style>
+.artist-list {
+  width: 90%;
+  margin: 0 auto;
+}
 .radio-list {
   display: flex;
   flex-wrap: wrap;

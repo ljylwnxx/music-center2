@@ -156,20 +156,6 @@
         </div>
       </transition>
     </div>
-    <!-- 登录按钮 -->
-    <div class="user-login pointer">
-      <div @click="loginView">
-        <el-avatar :size="30" icon="el-icon-user-solid" :src="avatarUrl">
-        </el-avatar>
-      </div>
-      <div class="login-text" >{{name}}</div>
-      <div class="login-btn" v-if="this.isLogin">
-        <el-button type="info" plain @click="doLogout">{{loginStatus}}</el-button>
-      </div>
-      <div class="login-btn" v-else>
-        <el-button type="success" plain @click="loginView">{{loginStatus}}</el-button>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -195,16 +181,6 @@ export default {
     }
   },
   computed: {
-    ...mapState(['isLogin', 'account', 'profile']),
-    name () {
-      return this.isLogin ? this.profile.nickname : 'hi~欢迎你'
-    },
-    avatarUrl () {
-      return this.isLogin ? this.profile.avatarUrl : this.avatar
-    },
-    loginStatus () {
-      return this.isLogin ? '退出' : '登录'
-    },
     showMusic () {
       return Object.hasOwnProperty.call(this.suggestInfo, 'songs')
     },
@@ -330,23 +306,6 @@ export default {
       if (typeof id === 'number') {
         this.$router.push({ path: '/playlistdetail/' + id })
       }
-    },
-    // 进入登录页面
-    loginView () {
-      if (!this.isLogin) {
-        this.$router.push('/login')
-      } else {
-        if (this.$route.path === '/userdetail/' + this.account.id) return
-        this.$router.push('/userdetail/' + this.account.id)
-      }
-    },
-    // 退出登录
-    doLogout () {
-      if (!this.isLogin) {
-        this.$router.push('/login')
-      } else {
-        this.$store.dispatch('logout')
-      }
     }
   }
 }
@@ -357,7 +316,7 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   color: #fff;
 }
 .logo-wrap {

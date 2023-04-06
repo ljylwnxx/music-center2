@@ -60,35 +60,35 @@ export default {
         },
         {
           title: '歌手',
-          icon: 'pear',
+          icon: 'ice-tea',
           path: '/artistlist'
         }
       ],
       musicAsideList: [
         {
           index: '1-1',
-          title: '最近播放',
-          icon: 'orange',
-          path: '/historyplay'
-        },
-        {
-          index: '1-3',
           title: '歌单',
-          icon: 'ice-tea',
+          icon: 'milk-tea',
           path: '/playlist'
         },
         {
-          index: '1-4',
+          index: '1-2',
           title: '排行榜',
-          icon: 'ice-tea',
+          icon: 'coffee',
           path: '/toplist'
         },
         {
-          index: '1-5',
+          index: '1-3',
           title: '最新音乐',
-          icon: 'ice-tea',
+          icon: 'lollipop',
           path: '/newmusic'
-        }
+        },
+        {
+          index: '1-4',
+          title: '最近播放',
+          icon: 'ice-cream-round',
+          path: '/historyplay'
+        },
       ]
     }
   },

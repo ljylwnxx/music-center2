@@ -15,5 +15,3 @@ export const follow = ({id, t}) => httpGet('/api/follow', {id, t})
 // 更新用户信息
 export const updatedUserInfo = ({ nickname, signature, gender, birthday, province, city }) => httpGet('/api/user/update', { nickname, signature, gender, birthday, province, city })
 
-// 获取账号信息
-export const getAcount = () => httpGet('/api/user/account')

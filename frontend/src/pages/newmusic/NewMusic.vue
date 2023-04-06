@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import NewSong from './newmusic/NewSong'
-import NewAlbum from './newmusic/NewAlbum'
+import NewSong from './NewSong'
+import NewAlbum from './NewAlbum'
 export default {
   name: 'NewMusic',
   components: {
@@ -62,6 +62,11 @@ export default {
 </script>
 
 <style scoped>
+.new-music{
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 20px
+}
   .new-music-head {
   display: flex;
   justify-content: center;

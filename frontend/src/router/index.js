@@ -7,7 +7,7 @@ import PersonalFmMain from '@/pages/personalfmpage/PersonalFmMain'
 import RecommendSong from '@/pages/recommendsong/RecommendSong'
 import HistoryPlay from '@/pages/historyplay/HistoryPlay'
 import ArtistDetail from '@/pages/artist/ArtistDetail'
-import PlayListDetail from '@/pages/playlist/PlayListDetail'
+import PlayListDetail from '@/pages/playlistdetail/PlayListDetail'
 import AlbumDetail from '@/pages/album/AlbumDetail'
 import UserDetail from '@/pages/user/UserDetail'
 import AllMv from '@/pages/mv/AllMv'
@@ -15,13 +15,12 @@ import TopMv from '@/pages/mv/TopMv'
 import VideoDetail from '@/pages/mv/VideoDetail'
 import Search from '@/pages/search/Search'
 import UserEdit from '@/pages/user/UserEdit'
-import Login from '@/pages/login/Login'
 import HotComment from '@/pages/hotcomment/HotComment'
-import PersonalRecommend from '@/pages/home/HomePages/PersonalRecommend'
-import PlayList from '@/pages/home/HomePages/PlayList'
-import TopList from '@/pages/home/HomePages/TopList'
-import ArtistList from '@/pages/home/HomePages/ArtistList'
-import NewMusic from '@/pages/home/HomePages/NewMusic'
+import PersonalRecommend from '@/pages/home/PersonalRecommend'
+import PlayList from '@/pages/playlist/PlayList'
+import TopList from '@/pages/toplist/TopList'
+import ArtistList from '@/pages/artistlist/ArtistList'
+import NewMusic from '@/pages/newmusic/NewMusic'
 
 Vue.use(Router)
 
@@ -32,11 +31,11 @@ Router.prototype.push = function push (location) {
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'MainLayout',
-      component: MainLayout,
-      redirect: 'homemain',
-      children: [
+          path: '/',
+          name: 'MainLayout',
+          component: MainLayout,
+          redirect: 'homemain',
+          children: [
         {
           path: 'homemain',
           name: 'homemain',
@@ -44,12 +43,32 @@ export default new Router({
           redirect: '/personalrecommend',
           children:
           [
-            { path: '/personalrecommend', component: PersonalRecommend },
-            { path: '/playlist', component: PlayList },
-            { path: '/toplist', component: TopList },
-            { path: '/artistlist', component: ArtistList },
-            { path: '/newmusic', component: NewMusic }
+            { path: '/personalrecommend', component: PersonalRecommend }
           ]
+        },
+        /* Mv页 */
+        {
+          path: '/playlist',
+          name: 'playlist',
+          component:  PlayList,
+        },
+        /* Mv页 */
+        {
+          path: '/toplist',
+          name: 'toplist',
+          component: TopList,
+        },
+        /* Mv页 */
+        {
+          path: '/artistlist',
+          name: 'artistlist',
+          component: ArtistList,
+        },
+        /* Mv页 */
+        {
+          path: '/newmusic',
+          name: 'newmusic',
+          component: NewMusic,
         },
         /* Mv页 */
         {
@@ -136,10 +155,6 @@ export default new Router({
           component: HotComment
         }
       ]
-    },
-    {
-      path: '/login',
-      component: Login
     }
   ]
 })

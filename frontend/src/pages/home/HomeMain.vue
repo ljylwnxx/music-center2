@@ -1,6 +1,6 @@
 <template>
   <div class="home-view">
-    <div class="home-page-view mtop-20">
+    <div class="home-page-view">
       <transition name="el-fade-in">
         <router-view></router-view>
       </transition>
@@ -9,16 +9,8 @@
 </template>
 
 <script>
-import TabsMenu from '@/components/menu/TabsMenu'
 export default {
-  name: 'HomeMain',
-  components: {
-    TabsMenu
-  },
-  data () {
-    return {
-    }
-  }
+    name: 'HomeMain'
 }
 </script>
 

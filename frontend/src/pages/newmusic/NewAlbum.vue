@@ -40,7 +40,7 @@ import {
   NEWALBUM_QUERYINFO_OFFSET,
   NEWALBUM_QUERYINFO_LIMIT
 } from '../constant'
-import ImgList from '../../../../components/list/ImgList.vue'
+import ImgList from '../../components/list/ImgList'
 export default {
   components: { ImgList },
   name: 'NewAlbum',

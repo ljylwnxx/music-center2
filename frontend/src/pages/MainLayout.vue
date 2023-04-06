@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import HeaderMenu from './main/header/HeaderMenu'
-import MainAside from './main/aside/MainAside'
-import MainFooter from './main/footer/MainFooter'
+import HeaderMenu from './main/header/HeaderMenu.vue'
+import MainAside from './main/aside/MainAside.vue'
+import MainFooter from './main/footer/MainFooter.vue'
 
 export default {
   name: 'MainLayout',

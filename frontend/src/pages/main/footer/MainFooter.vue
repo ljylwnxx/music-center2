@@ -51,7 +51,7 @@
           </span>
         </div>
       </div>
-      <!-- 下载声音按钮 -->
+      <!-- 声音按钮 -->
       <div class="player-otherbutton">
         <!-- 声音 -->
         <div class="button-volume">
@@ -154,8 +154,7 @@
 </template>
 
 <script>
-import { httpGet } from '@/utils/axios.js'
-import {getMusicUrl} from '@/api/api_music'
+import {getMusicUrl, likeMusic} from '@/api/api_music'
 import LyricWrap from '@/components/player/LyricWrap'
 import Comment from '@/components/comment/Comment'
 import MusicList from '@/components/list/MusicList.vue'

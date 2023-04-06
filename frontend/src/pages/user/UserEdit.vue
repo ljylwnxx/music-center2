@@ -95,7 +95,6 @@ export default {
       const res = await uploadAvatar(imgObj)
       if (res.code !== 200) return this.$message.error('上传失败')
       this.$message.success('上传成功')
-      this.$store.dispatch('getAcount')
     },
     // 更新用户信息
     async onSubmitUserInfo () {
@@ -110,7 +109,6 @@ export default {
         return this.$message.error('更新失败')
       }
       this.$message.success('更新成功')
-      this.$store.dispatch('getAcount')
     }
   }
 }

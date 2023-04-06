@@ -6,10 +6,7 @@
 
 <script>
 export default {
-  name: 'App',
-  beforeCreate () {
-    this.$store.dispatch('getAcount')
-  }
+  name: 'App'
 }
 </script>
 

@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { httpGet } from '@/utils/axios.js'
-import { getAcount, getUserPlayList } from '@/api/api_user'
 Vue.use(Vuex)
 const state = {
   isPlay: false,
@@ -11,55 +9,9 @@ const state = {
     nextId: null,
     lastId: null
   },
-  account: {},
-  profile: {},
-  isLogin: window.sessionStorage.getItem('isLogin') !== 'true',
   historyList: window.localStorage.getItem('setHistoryInfo') ? JSON.parse(window.localStorage.getItem('setHistoryInfo')) : []
 }
 const actions = {
-  // 用户信息
-  async getAcount ({ commit, dispatch }) {
-    const res = await getAcount()
-    console.log(res, 'rescount')
-    if (res.data.profile !== null) {
-      commit('setLoginInfo', res.data)
-      commit('setIsLogin', true)
-      dispatch('getLikeList')
-    } else {
-      commit('setLoginInfo', { account: {}, profile: {} })
-      commit('setIsLogin', false)
-      Vue.prototype.$notify({
-        title: '提示',
-        type: 'warning',
-        dangerouslyUseHTMLString: true,
-        message:
-                `<section>本网站不会收集用户信息，建议使用二维码或验证码登录</section>
-                `
-      })
-    }
-  },
-  // 退出
-  logout ({ commit, state }) {
-    if (!state.isLogin) { return Vue.prototype.$message.warning('似乎并没有登录') }
-    Vue.prototype.$confirm('将要退出登录, 是否继续?', '提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
-    })
-      .then(async () => {
-        httpGet(`/api/logout`).then(res => {
-          Vue.prototype.$message.success('退出成功')
-          commit('setLoginInfo', { account: null, profile: null })
-          commit('setIsLogin', false)
-        })
-      })
-      .catch(() => {
-        Vue.prototype.$message({
-          type: 'info',
-          message: '已取消'
-        })
-      })
-  }
 }
 const mutations = {
   setPlayState (state, isPlay) {
@@ -77,7 +29,7 @@ const mutations = {
       if (newHistouryList.find(item => item.id === data.musicDetail.id)) {
         return
       }
-      newHistouryList.push(data.musicDetail)
+      newHistouryList.unshift(data.musicDetail)
     } else if (data.type === 'delete') {
       newHistouryList = newHistouryList.filter(item => {
         return item.id !== data.musicDetail.id
@@ -87,18 +39,6 @@ const mutations = {
     }
     window.localStorage.setItem('setHistoryInfo', JSON.stringify(newHistouryList))
     state.historyList = newHistouryList
-  },
-  setIsLogin (state, isLogin) {
-    state.isLogin = isLogin
-    if (isLogin) {
-      window.sessionStorage.setItem('isLogin', true)
-    } else {
-      window.sessionStorage.removeItem('isLogin')
-    }
-  },
-  setLoginInfo (state, loginInfo) {
-    state.account = loginInfo.account
-    state.profile = loginInfo.profile
   }
 }
 const store = new Vuex.Store({
