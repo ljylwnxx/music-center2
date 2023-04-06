@@ -72,13 +72,13 @@ export default {
   data () {
     return {
       typeList: [
-        { id: 0, name: '全部' },
-        { id: 7, name: '华语' },
+        // { id: 0, name: '全部' },
+        // { id: 7, name: '华语' },
         { id: 96, name: '欧美' },
         { id: 8, name: '日本' },
         { id: 16, name: '韩国' }
       ],
-      type: 0,
+      type: 96,
       list: []
     }
   },

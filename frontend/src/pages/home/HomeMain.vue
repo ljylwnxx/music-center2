@@ -1,9 +1,6 @@
 <template>
   <div class="home-view">
-    <div class="tab-list">
-      <tabs-menu :tabMenu="tabMenuList"></tabs-menu>
-    </div>
-    <div class="home-page-view">
+    <div class="home-page-view mtop-20">
       <transition name="el-fade-in">
         <router-view></router-view>
       </transition>
@@ -20,14 +17,6 @@ export default {
   },
   data () {
     return {
-      tabMenuList: [
-        { path: '/personalrecommend', name: '个性推荐' },
-        { path: '/playlist', name: '歌单' },
-        { path: '/toplist', name: '排行榜' },
-        { path: '/artistlist', name: '歌手' },
-        { path: '/newmusic', name: '最新音乐' }
-
-      ]
     }
   }
 }

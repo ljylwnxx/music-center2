@@ -14,8 +14,8 @@ export const getMusicUrl = (id) => httpGet('/api/song/url', {id})
 // 获取每日推荐歌曲
 export const getRecomandSong = () => httpGet('/api/recommend/songs')
 
-// 获取每日推荐歌单
-export const getRecomandPlaylist = () => httpGet('/api/recommend/resource')
+// 获取每日推荐新音乐
+export const getRecomandNewMusic = (limit) => httpGet('/api/personalized/newsong', {limit})
 
 // 喜欢音乐
 export const likeMusic = (id, like = true) => httpGet('/api/like?', {id, like})

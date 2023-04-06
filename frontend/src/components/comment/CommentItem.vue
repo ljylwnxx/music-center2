@@ -33,27 +33,6 @@
           <div class="time font-12" style="color: #9f9f9f">
             {{ item.timeStr }}
           </div>
-          <!-- 点赞评论按钮 -->
-          <div class="comment-btn">
-            <button class="no-btn" @click="like(item.commentId, item.liked)">
-              <i
-                class="iconfont icon-good"
-                :class="{ isliked: item.liked }"
-              ></i>
-              <span> {{ item.likedCount }}</span>
-            </button>
-            <div class="div-column"></div>
-            <button class="no-btn">
-              <i class="iconfont icon-fenxiang"></i>
-            </button>
-            <div class="div-column"></div>
-            <button
-              class="no-btn"
-              @click="reply(item.commentId, item.user.nickname)"
-            >
-              <i class="iconfont icon-pinglun"></i>
-            </button>
-          </div>
         </div>
       </div>
     </div>
@@ -73,12 +52,6 @@ export default {
   methods: {
     toUserDetail (id) {
       this.$emit('clickUser', id)
-    },
-    like (cid, liked) {
-      this.$emit('like', { cid, liked, identy: this.identy })
-    },
-    reply (cid, name) {
-      this.$emit('reply', { cid, name })
     }
   }
 }

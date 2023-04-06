@@ -6,8 +6,7 @@
         <div class="day font-bold">{{ today }}</div>
       </div>
       <div class="text mleft-30 mtop-20">
-        <div class="font-24 font-bold">每日歌曲推荐</div>
-        <div class="desc">根据你的音乐口味生成,每天6:00更新</div>
+        <div class="font-24 font-bold">新音乐推荐</div>
       </div>
     </div>
     <!-- 播放全部按钮 -->
@@ -20,17 +19,29 @@
     <!-- 分割线 -->
     <div class="div-line mtop-20"></div>
     <!-- 歌曲组件 -->
-    <MusicList ref="listRef" :list="list">
+    <MusicList class="music" ref="listRef" :list="list">
     </MusicList>
+    <!-- 分页 -->
+    <div class="flex-center" style="width: 100%">
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page="pageInfo.currentPage"
+        background
+        :page-size="20"
+        layout="prev, pager, next"
+        :total="pageInfo.total"
+      >
+      </el-pagination>
+    </div>
     <!-- 返回 -->
     <el-backtop target=".el-main" class="backtop"></el-backtop>
   </div>
 </template>
 
 <script>
-import { getRecomandSong } from '@/api/api_music'
+import { getRecomandNewMusic } from '@/api/api_music'
 import MusicList from '@/components/list/MusicList.vue'
-import {tranferMusicData} from '../../utils/constant'
+import {tranferNewSongMusicData} from '@/utils/constant'
 export default {
   name: 'RecommendSong',
   components: {
@@ -39,7 +50,13 @@ export default {
   data () {
     return {
       list: [],
-      today: '1'
+      today: '1',
+      pageInfo: {
+        total: 100,
+        currentPage: 1,
+        offset: 20,
+        limit: 20
+      },
     }
   },
   created () {
@@ -47,12 +64,16 @@ export default {
     this.getToday()
   },
   methods: {
-    // 获取每日推荐歌曲
+    // 获取每日推荐新音乐
     async getDailyRecSongs () {
-      const res = await getRecomandSong()
+      const res = await getRecomandNewMusic(this.pageInfo.offset)
       if (res.data.code !== 200) { return }
-      this.list = res.data.data.dailySongs.map(item => {
-        return tranferMusicData(item)
+      let list = []
+      res.data.result.forEach((item) => {
+        list.push((item.song))
+      })
+      this.list = list.map(item => {
+          return tranferNewSongMusicData(item)
       })
     },
     // 获取日期
@@ -64,7 +85,15 @@ export default {
     // 播放全部
     playAll () {
       this.$refs.listRef.playClickAll()
-    }
+    },
+    handleCurrentChange (val) {
+      this.pageInfo.currentPage = val
+      console.log(this.pageInfo.currentPage, 'this.pageInfo.currentPage')
+      this.pageInfo.offset = val * this.pageInfo.limit
+      console.log(this.pageInfo.offset, 'this.pageInfo.offset')
+      document.querySelector('.el-main').scrollTop = 0
+      this.getDailyRecSongs(this.pageInfo.offset)
+    },
   }
 }
 </script>

@@ -31,43 +31,6 @@
                     </i>
                  </span>
             </div>
-            <!-- 编辑个人信息 -->
-            <div v-if="this.$store.state.isLogin && this.$store.state.profile.userId === userId">
-                <el-button
-                size="small"
-                round
-                plain
-                class="btn btn-white"
-                @click="UserEdit"
-                >
-                 <i class="el-icon-edit"></i>编辑个人信息
-                </el-button>
-            </div>
-            <div v-else>
-              <!-- 发私信 -->
-              <el-button
-                size="small"
-                round
-                plain
-                >
-                 <i class="el-icon-message"></i>发私信
-              </el-button>
-              <!-- 关注 -->
-              <el-button
-                size="small"
-                round
-                plain
-                class="btn btn-white mleft-10"
-                @click="follow"
-              >
-                  <template v-if="!followed">
-                  <i class="el-icon-plus"></i> 关注
-                  </template>
-                  <template v-else>
-                  <i class="el-icon-check"></i> 已关注
-                  </template>
-              </el-button>
-          </div>
         </div>
         <!-- 分割线 -->
         <div class="div-line"></div>
@@ -167,7 +130,6 @@ export default {
       info: {},
       list: [],
       level: 0,
-      followed: false,
       offset: 0,
       showtab: 1,
       region: '未知'
@@ -224,39 +186,6 @@ export default {
         this.getUserPlayList()
       }
     },
-    // 关注/取消关注用户
-    async follow () {
-      if (!this.$store.state.isLogin) { return this.$message.warning('需要登录') }
-      let cancel = false
-      if (this.followed) {
-        await this.$confirm('绑定手机号或短信验证成功后，可进行下一步操作哦~', {
-          distinguishCancelAndClose: true,
-          confirmButtonText: '去验证',
-          cancelButtonText: '取消'
-        })
-          .then(() => {
-            cancel = false
-          })
-          .catch((action) => {
-            cancel = true
-            this.$message({
-              type: 'info',
-              message: action === 'cancel' ? '取消' : '出错'
-            })
-          })
-      }
-      if (cancel) return
-      let followObj = {
-        id: this.info.userId,
-        t: this.followed ? 0 : 1
-      }
-      const res = await follow(followObj)
-      if (res.data.code !== 200) {
-        return this.$message.error('操作失败') 
-      }
-      this.followed = !this.followed
-      this.$message.success(`${this.followed ? '关注' : '取关'}成功`)     
-    },
     // 获取用户城市信息
     getCityInfo () {
       httpGet('/public/city.json')
@@ -272,9 +201,6 @@ export default {
     },
     toPlayListDetail (id) {
       this.$router.push({ path: '/playlistdetail/' + id })
-    },
-    UserEdit () {
-      this.$router.push('/useredit')
     }
   }
 }

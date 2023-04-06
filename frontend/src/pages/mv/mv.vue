@@ -1,5 +1,5 @@
 <template>
-  <div class="music-video">
+  <div class="music-video mtop-20">
     <!-- 最新mv -->
     <div class="mv-item">
       <!-- 最新mv -->
@@ -81,7 +81,7 @@ import {
   MV_TOPQUERYINFO_AREA,
   MV_TOPQUERYINFO_LIMIT,
   MV_TOPQUERYINFO_OFFSET
-} from '../../constant'
+} from './constant'
 export default {
   name: 'mv',
   components: { MvList, MvTopList },
@@ -183,6 +183,10 @@ export default {
 </script>
 
 <style scoped>
+.music-video {
+  width: 90%;
+  margin: 0 auto;
+}
 .isActive {
   background-color: #b6d4a4;
   color: #fff;

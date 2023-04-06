@@ -13,7 +13,7 @@
         <i :class="'el-icon-' + item.icon"></i>
         <span slot="title">{{ item.title }}</span>
       </el-menu-item>
-      <el-menu-item-group v-if="this.$store.state.isLogin">
+      <el-menu-item-group>
         <template slot="title">
           <i class="el-icon-apple"></i>
           我的音乐
@@ -25,37 +25,6 @@
         >
         <i :class="'el-icon-' + subItem.icon"></i>
           <span>{{ subItem.title }}</span>
-        </el-menu-item>
-      </el-menu-item-group>
-      <el-menu-item-group v-if="this.$store.state.isLogin">
-        <template slot="title">
-          <i class="el-icon-lollipop"></i>
-          创建歌单
-          </template>
-        <el-menu-item
-          v-for="(subItem, index) in creList"
-          :key="subItem.id"
-          :index="songPath(subItem.id)"
-        >
-          <div slot="title" class="text-hidden">
-            <i v-if="index === 0" class="iconfont icon-aixin"></i>
-            <i v-else class="iconfont icon-gedan"></i>{{ subItem.name }}
-          </div>
-        </el-menu-item>
-      </el-menu-item-group>
-      <el-menu-item-group v-if="this.$store.state.isLogin">
-        <template slot="title">
-          <i class="el-icon-ice-cream-round"></i>
-          收藏歌单
-          </template>
-        <el-menu-item
-          v-for="subItem in subList"
-          :key="subItem.id"
-          :index="songPath(subItem.id)"
-        >
-          <div slot="title" class="text-hidden">
-            <i class="iconfont icon-gedan"></i>{{ subItem.name }}
-          </div>
         </el-menu-item>
       </el-menu-item-group>
     </el-menu>
@@ -75,9 +44,9 @@ export default {
           path: '/personalrecommend'
         },
         {
-          title: '视频',
+          title: '最新MV',
           icon: 'watermelon',
-          path: '/videodetail'
+          path: '/mvdetail'
         },
         {
           title: '私人FM',
@@ -88,6 +57,11 @@ export default {
           title: '每日推荐',
           icon: 'pear',
           path: '/recommendsong'
+        },
+        {
+          title: '歌手',
+          icon: 'pear',
+          path: '/artistlist'
         }
       ],
       musicAsideList: [
@@ -98,10 +72,22 @@ export default {
           path: '/historyplay'
         },
         {
-          index: '1-2',
-          title: '我的收藏',
+          index: '1-3',
+          title: '歌单',
           icon: 'ice-tea',
-          path: '/collection'
+          path: '/playlist'
+        },
+        {
+          index: '1-4',
+          title: '排行榜',
+          icon: 'ice-tea',
+          path: '/toplist'
+        },
+        {
+          index: '1-5',
+          title: '最新音乐',
+          icon: 'ice-tea',
+          path: '/newmusic'
         }
       ]
     }
@@ -115,24 +101,12 @@ export default {
     },
     hasChildren () {
       return this.musicAsideList.filter((item) => !item.children)
-    },
-    creList () {
-      return this.$store.state.myPlayList.filter((item) => item.userId === this.userId)
-    },
-    subList () {
-      return this.$store.state.myPlayList.filter((item) => item.userId !== this.userId)
-    },
-    userId () {
-      return this.$store.state.isLogin ? this.$store.state.profile.userId : 0
     }
   },
   methods: {
     handleSelect (key, keyPath) {
       window.sessionStorage.setItem('activeIndex', key)
       this.activeIndex = key
-    },
-    songPath (id) {
-      if (typeof id === 'number') return `/playlistdetail/${id}`
     }
   }
 }

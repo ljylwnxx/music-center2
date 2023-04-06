@@ -2,20 +2,17 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import MainLayout from '@/pages/MainLayout'
 import HomeMain from '@/pages/home/HomeMain'
-import videoMain from '@/pages/video/videoMain'
-import Video from '@/pages/video/videoPage/video/Video'
-import mv from '@/pages/video/videoPage/mv/mv'
+import mv from '@/pages/mv/mv'
 import PersonalFmMain from '@/pages/personalfmpage/PersonalFmMain'
 import RecommendSong from '@/pages/recommendsong/RecommendSong'
 import HistoryPlay from '@/pages/historyplay/HistoryPlay'
-import CollectionMain from '@/pages/collection/CollectionMain'
 import ArtistDetail from '@/pages/artist/ArtistDetail'
 import PlayListDetail from '@/pages/playlist/PlayListDetail'
 import AlbumDetail from '@/pages/album/AlbumDetail'
 import UserDetail from '@/pages/user/UserDetail'
-import AllMv from '@/pages/video/videoPage/mv/AllMv'
-import TopMv from '@/pages/video/videoPage/mv/TopMv'
-import VideoDetail from '@/pages/video/videoDetail/VideoDetail'
+import AllMv from '@/pages/mv/AllMv'
+import TopMv from '@/pages/mv/TopMv'
+import VideoDetail from '@/pages/mv/VideoDetail'
 import Search from '@/pages/search/Search'
 import UserEdit from '@/pages/user/UserEdit'
 import Login from '@/pages/login/Login'
@@ -54,15 +51,11 @@ export default new Router({
             { path: '/newmusic', component: NewMusic }
           ]
         },
-        /* 视频列表页 */
+        /* Mv页 */
         {
-          path: 'videoMain',
-          redirect: '/video',
-          component: videoMain,
-          children: [
-            { path: '/videodetail', component: Video },
-            { path: '/mvdetail', component: mv }
-          ]
+          path: '/mvdetail',
+          name: 'mvdetail',
+          component: mv,
         },
         /* 私人FM页 */
         {
@@ -82,12 +75,6 @@ export default new Router({
           name: 'historyplay',
           component: HistoryPlay
         },
-        /* 我的收藏页 */
-        {
-          path: '/collection',
-          name: 'collection',
-          component: CollectionMain
-        },
         // 用户详情页
         {
           path: 'userdetail/:id',
@@ -105,6 +92,12 @@ export default new Router({
         // 歌单详情页
         {
           path: 'playlistdetail/:id',
+          name: 'playlist',
+          component: PlayListDetail,
+          props: true
+        },
+        {
+          path: '/playlistdetail',
           name: 'playlist',
           component: PlayListDetail,
           props: true

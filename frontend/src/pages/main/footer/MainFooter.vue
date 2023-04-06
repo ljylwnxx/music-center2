@@ -33,11 +33,6 @@
           <button class="player-btn" @click="trrigerMusic(musicDetail.nextId)">
             <i class="el-icon el-icon-caret-right"></i>
           </button>
-          <!-- 喜欢按钮 -->
-          <button class="player-btn" @click="likeMusic">
-            <i v-show="!isLiked" class="el-iconl el-icon-star-off"></i>
-            <i v-show="isLiked" style="color: #ec4141" class="el-icon el-icon-star-on"></i>
-          </button>
         </div>
         <!-- 进度条 -->
         <div class="player-progress">
@@ -171,7 +166,7 @@
 
 <script>
 import { httpGet } from '@/utils/axios.js'
-import {getMusicUrl, likeMusic} from '@/api/api_music'
+import {getMusicUrl} from '@/api/api_music'
 import LyricWrap from '@/components/player/LyricWrap'
 import Comment from '@/components/comment/Comment'
 import MusicList from '@/components/list/MusicList.vue'
@@ -211,24 +206,6 @@ export default {
     },
     length () {
       return this.$store.state.historyList.length
-    },
-    isLiked: {
-      get () {
-        return this.$store.state.likeIdList.indexOf(this.musicDetail.id) !== -1
-      },
-      set (val) {
-        if (this.isLiked) {
-          this.$store.commit('setLikeIdList', {
-            type: 'remove',
-            data: val
-          })
-        } else {
-          this.$store.commit('setLikeIdList', {
-            type: 'unshift',
-            data: val
-          })
-        }
-      }
     }
   },
   watch: {
@@ -309,16 +286,6 @@ export default {
       setTimeout(() => {
         this.updateHistoryList(this.musicDetail)
       }, 1000)
-    },
-    // 喜欢音乐按钮事件
-    async likeMusic () {
-      if (!this.$store.state.isLogin) { return this.$message.error('需要登录') }
-      if (this.musicDetail.id === 0 || typeof this.musicDetail.id === 'undefined') { return }
-      const res = await likeMusic(this.musicDetail.id, !this.isLiked)
-      if (res.data.code !== 200) { return }
-      this.$message.success(`${this.isLiked ? '取消喜欢' : '喜欢'}成功`)
-      this.isLiked = this.musicDetail.id
-      this.$store.dispatch('getMyPlayList')
     },
     // 切换歌曲
     trrigerMusic (id) {

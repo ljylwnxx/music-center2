@@ -23,14 +23,12 @@
 import ArtistAlbum from '../../pages/artist/ArtistDetail/ArtistAlbum'
 import ArtistMvList from '../../pages/artist/ArtistDetail/ArtistMvList'
 import ArtistIntro from '../../pages/artist/ArtistDetail/ArtistIntro'
-import ArtistSame from '../../pages/artist/ArtistDetail/ArtistSame'
 export default {
   name: 'ArtTabsMenu',
   components: {
     ArtistAlbum,
     ArtistMvList,
-    ArtistIntro,
-    ArtistSame
+    ArtistIntro
   },
   data () {
     return {
@@ -51,11 +49,6 @@ export default {
           label: '歌手详情',
           name: 'third',
           compoment: ArtistIntro
-        },
-        {
-          label: '相似歌手',
-          name: 'forth',
-          compoment: ArtistSame
         }
       ]
     }

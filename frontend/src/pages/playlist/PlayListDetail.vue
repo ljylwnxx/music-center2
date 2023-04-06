@@ -71,32 +71,6 @@
                   <i class="iconfont icon-bofang"></i>
                   <span class="btn-text">播放全部</span>
                 </button>
-                <!-- 收藏按钮 -->
-                <button
-                  v-if="!subscribed"
-                  class="btn btn-white mleft-10"
-                  :disabled="subDisabled"
-                  @click="subPlaylist(1)"
-                 >
-                  <i class="el-icon-folder-add"></i>
-                  <span class="btn-text">
-                    收藏({{ info.subscribedCount | countFormat }})
-                  </span>
-                </button>
-                <!-- 已收藏按钮 -->
-                <button v-else class="btn btn-white mleft-10" @click="subPlaylist(2)">
-                   <i class="el-icon-folder-checked"></i>
-                   <span class="btn-text">
-                    已收藏({{ info.subscribedCount | countFormat }})
-                   </span>
-                </button>
-                <!-- 分享按钮 -->
-                <button class="btn btn-white mleft-10">
-                   <i class="iconfont icon-fenxiang"></i>
-                   <span class="btn-text">
-                    分享({{ info.shareCount | countFormat }})
-                   </span>
-                </button>
                 <!-- 加载完整歌单按钮 -->
                 <button
                 class="btn btn-red mleft-10"
@@ -214,13 +188,9 @@ export default {
   computed: {
     showEditIcon () {
       return (
-        this.$store.state.isLogin &&
         this.$store.state.profile.userId === this.creator.userId &&
         this.info.specialType === 0
       )
-    },
-    subDisabled () {
-      if (this.$store.state.isLogin) { return this.info.userId === this.$store.state.profile.userId } else { return false }
     },
     isShowMoreBtn () {
       return (
@@ -249,7 +219,6 @@ export default {
       tags: [],
       playList: [],
       type: false,
-      subscribed: false,
       isLoading: true
     }
   },
@@ -264,40 +233,11 @@ export default {
       if (res.data.code !== 200) { return }
       this.info = Object.freeze(res.data.playlist)
       this.creator = Object.freeze(res.data.playlist.creator)
-      this.subscribed = res.data.playlist.subscribed
       this.tags = Object.freeze(res.data.playlist.tags)
       this.playList = res.data.playlist.tracks.map(item => {
         return tranferMusicData(item)
       })
       this.isLoading = false
-    },
-    // 收藏/取消收藏歌单
-    async subPlaylist (type) {
-      if (!this.$store.state.isLogin) return this.$message.warning('需要登录')
-      let cancel = false
-      if (this.subscribed) {
-        await this.$confirm('确认取消收藏吗？', '确认信息', {
-          distinguishCancelAndClose: true,
-          confirmButtonText: '确认',
-          cancelButtonText: '放弃'
-        })
-          .then(() => {
-            cancel = false
-          })
-          .catch((action) => {
-            cancel = true
-            this.$message({
-              type: 'info',
-              message: action === 'cancel' ? '取消' : '出错'
-            })
-          })
-      }
-      if (cancel) return
-      const res = await subPlaylist(this.id, type)
-      if (res.data.code !== 200) { return }
-      this.subscribed = !this.subscribed
-      type === 1 ? this.$message.success('收藏成功') : this.$message.success('取消收藏成功')
-      this.$store.dispatch('getMyPlayList')
     },
     // 加载完整歌单
     async loadCompletePlayList () {

@@ -28,7 +28,7 @@ import {
   TOPMV_DEFAULT_LIMIT,
   TOPMV_DEFAULT_OFFSET,
   TOPMV_QUERYINFO_AREA
-} from '../../constant'
+} from './constant'
 export default {
   name: 'TopMv',
   components: { MvTopList },

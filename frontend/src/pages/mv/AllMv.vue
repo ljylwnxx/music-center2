@@ -54,7 +54,7 @@ import {
   ALLMV_DEFAULT_HASMORE,
   ALLMV_DEFAULT_ISLOADING,
   ALLMV_DEFAULT_MODE
-} from '../../constant'
+} from './constant'
 export default {
   name: 'AllMv',
   components: { MvList },

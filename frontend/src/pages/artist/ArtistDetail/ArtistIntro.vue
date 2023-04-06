@@ -1,7 +1,7 @@
 <template>
   <div class="artist-intro">
        <div v-if="introduction.length === 0">
-       没有相似歌手
+       暂无资料
        </div>
        <div
        v-else

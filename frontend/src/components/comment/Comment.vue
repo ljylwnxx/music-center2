@@ -1,28 +1,5 @@
 <template>
   <div class="comment">
-      <!-- 评论框 -->
-      <div class="area-wrap" ref="areaWrapRef">
-       <textarea
-       class="text-area"
-       ref="textAreaRef"
-       v-model="commentInfo.content"
-       @keyup.enter="sendComment"
-       >
-       </textarea>
-       <div class="word-num">{{ restNum }}</div>
-      </div>
-      <!-- 评论按钮 -->
-      <div class="btn-wrap mtop-10">
-      <div class="at-btn">
-        <button class="font-18 no-btn" @click="commentInfo.content += '@'">
-          @
-        </button>
-        <button class="font-18 no-btn" @click="addTopic">#</button>
-      </div>
-      <div class="send-btn">
-        <button class="btn btn-white" @click="sendComment">评论</button>
-      </div>
-      </div>
       <!-- 精彩评论 -->
       <div class="hot-wrap mtop-20" v-if="hotList.length !== 0">
           <div class="font-16 font-bold">精彩评论</div>
@@ -32,8 +9,6 @@
              :item="item"
              denty="hot"
              @clickUser="toUserDetail"
-             @reply="handleReply"
-             @like="handleLike"
            >
            </CommentItem>
            <div class="more-btn-wrap mtop-20">
@@ -49,8 +24,6 @@
               :item="item"
               identy="new"
               @clickUser="toUserDetail"
-              @reply="handleReply"
-              @like="handleLike"
             >
              </CommentItem>
           <!-- 分页 -->
@@ -75,9 +48,7 @@
 <script>
 import {
   getHotComment,
-  getNewComment,
-  sendComment,
-  likeComment
+  getNewComment
 } from '@/api/api_comment'
 import CommentItem from '../../components/comment/CommentItem'
 import { toTopAnimation } from './index'
@@ -124,18 +95,6 @@ export default {
         content: '',
         commentId: 0
       },
-      likeCommentInfo: {
-        id: this.id,
-        cid: 0,
-        type: this.type,
-        t: 0
-      },
-      replyName: ''
-    }
-  },
-  computed: {
-    restNum () {
-      return 140 - this.commentInfo.content.length
     }
   },
   watch: {
@@ -145,11 +104,6 @@ export default {
         if (!val || this.newList.length !== 0) return
         this.getHotComment()
         this.getNewComment()
-      }
-    },
-    'commentInfo.content' (val) {
-      if (val === '') {
-        this.commentInfo.t = 1
       }
     },
     id (val) {
@@ -166,7 +120,6 @@ export default {
   created () {
     this.getHotComment()
     this.getNewComment()
-    this.sendComment(this.commentInfo)
   },
   methods: {
     clearCommentInfo () {
@@ -190,66 +143,6 @@ export default {
       this.newCount = res.data.total
       this.newList = res.data.comments
     },
-    // 发送评论
-    async sendComment () {
-      if (this.restNum < 0) return this.$message.error('字数过长')
-      if (this.commentInfo.commentId !== 0) {
-        this.commentInfo.content = this.commentInfo.content.replace('回复' + this.replyName + ':', '')
-      }
-      const res = await sendComment(this.commentInfo)
-      if (res.data.code !== 200) { return }
-      this.$message.success('发送成功')
-      this.commentInfo.content = ''
-      this.commentInfo.t = 1
-      this.commentInfo.commentId = 0
-      if (this.newQuery.offset === 0) {
-        window.setTimeout(() => {
-          this.getNewComment()
-        }, 500)
-      }
-    },
-    // 回复
-    handleReply (info) {
-      this.replyName = info.name
-      this.commentInfo.content = '回复' + info.name + ':'
-      this.commentInfo.commentId = info.cid
-      this.commentInfo.t = 2
-      toTopAnimation(
-        this.$refs.areaWrapRef.offsetTop - this.scrollOffset,
-        document.querySelector(this.scrollDom),
-        600
-      )
-      this.$nextTick(() => {
-        this.$refs.textAreaRef.focus()
-      })
-    },
-    // 给评论点赞
-    handleLike (info) {
-      let like = {
-        id: this.id,
-        cid: info.cid,
-        type: this.type,
-        t: 1
-      }
-      if (info.liked) {
-        like.t = 0
-      }
-      this.likeComment(like, info.identy)
-    },
-    // 点赞
-    async likeComment (like, type) {
-      const res = await likeComment(like)
-      if (res.data.code !== 200) { return }
-      if (type === 'new') {
-        let index = this.newList.findIndex(item => item.commentId === like.cid)
-        this.newList[index].liked = !this.newList[index].liked
-        like.t ? this.newList[index].likedCount++ : this.newList[index].likedCount--
-      } else if (type === 'hot') {
-        let index = this.hotList.findIndex(item => item.commentId === like.cid)
-        this.hotList[index].liked = !this.hotList[index].liked
-        like.t ? this.hotList[index].likedCount++ : this.hotList[index].likedCount--
-      }
-    },
     handleChangePage (val) {
       this.currentPage = val
       this.newQuery.offset = (val - 1) * 20
@@ -260,10 +153,6 @@ export default {
         600
       )
     },
-    addTopic () {
-      this.commentInfo.content += '#输入想说的话题#'
-    },
-
     toUserDetail (id) {
       if (typeof id !== 'number') { return }
       if (this.$route.path !== '/userdetail/' + id) { this.$router.push('/userdetail/' + id) }

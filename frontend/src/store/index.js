@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { httpGet } from '@/utils/axios.js'
 import { getAcount, getUserPlayList } from '@/api/api_user'
-import { getLikeIdList } from '@/api/api_music'
 Vue.use(Vuex)
 const state = {
   isPlay: false,
@@ -12,8 +11,6 @@ const state = {
     nextId: null,
     lastId: null
   },
-  likeIdList: [],
-  myPlayList: [],
   account: {},
   profile: {},
   isLogin: window.sessionStorage.getItem('isLogin') !== 'true',
@@ -27,7 +24,6 @@ const actions = {
     if (res.data.profile !== null) {
       commit('setLoginInfo', res.data)
       commit('setIsLogin', true)
-      dispatch('getMyPlayList')
       dispatch('getLikeList')
     } else {
       commit('setLoginInfo', { account: {}, profile: {} })
@@ -63,24 +59,6 @@ const actions = {
           message: '已取消'
         })
       })
-  },
-  // 收藏的歌单
-  async getMyPlayList ({ commit, state }) {
-    if (!state.isLogin) {
-      return
-    }
-    const res = await getUserPlayList(state.profile.userId)
-    if (res.data.code !== 200) return
-    commit('setMyPlayList', res.data.playlist)
-  },
-  // 喜欢的歌单
-  async getLikeList ({ commit, state }) {
-    const res = await getLikeIdList(state.profile.userId)
-    if (res.data.code !== 200) { return }
-    commit('setLikeIdList', {
-      type: 'add',
-      data: res.data.ids
-    })
   }
 }
 const mutations = {
@@ -109,20 +87,6 @@ const mutations = {
     }
     window.localStorage.setItem('setHistoryInfo', JSON.stringify(newHistouryList))
     state.historyList = newHistouryList
-  },
-  setMyPlayList (state, list) {
-    state.myPlayList = list
-  },
-  setLikeIdList (state, data) {
-    if (data.type === 'add') {
-      state.likeIdList = data.data
-    } else if (data.type === 'unshift') {
-      state.likeIdList.unshift(data.data)
-    } else if (data.type === 'remove') {
-      state.likeIdList.splice(
-        state.likeIdList.indexOf(data.data), 1
-      )
-    }
   },
   setIsLogin (state, isLogin) {
     state.isLogin = isLogin

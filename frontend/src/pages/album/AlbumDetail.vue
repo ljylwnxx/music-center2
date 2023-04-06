@@ -18,24 +18,6 @@
             <i class="iconfont icon-bofang"></i>
             <span class="btn-text">播放全部</span>
           </button>
-          <button
-            v-if="!isSub"
-            class="btn btn-white mleft-10"
-            @click="getCollectAlbum(1)"
-          >
-            <i class="el-icon-folder-add"></i>
-            <span class="btn-text"> 收藏({{ subCount | countFormat }}) </span>
-          </button>
-          <button v-else class="btn btn-white mleft-10" @click="getCollectAlbum(0)">
-            <i class="el-icon-folder-checked"></i>
-            <span class="btn-text">
-              已收藏 ({{ subCount | countFormat }})
-            </span>
-          </button>
-          <button class="btn btn-white mleft-10">
-            <i class="iconfont icon-fenxiang"></i>
-            <span class="btn-text"> 分享({{ shareCount | countFormat }}) </span>
-          </button>
         </div>
         <!-- 歌手 -->
         <div class="author font-14">
@@ -54,7 +36,7 @@
           <span class="font-14">
             时间：{{ albumInfo.publishTime | dateFormat }}
             </span>
-        </div>
+         </div>
       </div>
     </div>
     <!-- 专辑tab -->
@@ -131,10 +113,7 @@ export default {
     return {
       albumInfo: {},
       list: [],
-      isSub: false,
-      shareCount: 0,
       commentCount: 0,
-      subCount: 0,
       showtab: 1
     }
   },
@@ -148,6 +127,7 @@ export default {
       const res = await getAlbumDetail(this.id)
       if (res.data.code !== 200) { return }
       this.albumInfo = res.data.album
+      console.log(this.albumInfo, 'this.albumInfo')
       this.list = res.data.songs.map(item => {
         return tranferMusicData(item)
       })
@@ -160,33 +140,6 @@ export default {
       this.shareCount = res.data.shareCount
       this.commentCount = res.data.commentCount
       this.subCount = res.data.subCount
-    },
-    // 收藏/取消收藏专辑
-    async getCollectAlbum (type) {
-      if (!this.$store.state.isLogin) { return this.$message.warning('请先登录') }
-      let cancel = false
-      if (this.isSub) {
-        await this.$confirm('确认取消收藏吗？', '确认信息', {
-          distinguishCancelAndClose: true,
-          confirmButtonText: '确认',
-          cancelButtonText: '放弃'
-        })
-          .then(() => {
-            cancel = false
-          })
-          .catch((action) => {
-            cancel = true
-            this.$message({
-              type: 'info',
-              message: action === 'cancel' ? '取消' : '出错'
-            })
-          })
-      }
-      if (cancel) return
-      const res = await getCollectAlbum(this.id, type)
-      if (res.data.code !== 200) { return }
-      this.isSub = !this.isSub
-      this.$message.success(`${type === 1 ? '收藏' : '取消'}成功`)
     },
     playAll () {
       this.$refs.listRef.playClickAll()

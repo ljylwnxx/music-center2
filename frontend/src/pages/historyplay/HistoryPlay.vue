@@ -20,7 +20,6 @@
     <div class="div-line mtop-20"></div>
     <!-- 歌曲列表组件 -->
     <MusicList
-    v-if="this.$store.state.isLogin"
     ref="listRef"
     :list="this.$store.state.historyList" >
        <template v-slot:one>
@@ -39,16 +38,6 @@
           </el-table-column>
        </template>
     </MusicList>
-    <div v-else>
-      <template>
-        <el-alert
-          title="提示"
-          type="info"
-          description="请先登录，登录后会有看到精彩的内容！"
-          show-icon>
-        </el-alert>
-      </template>
-    </div>
     <!-- 返回 -->
     <el-backtop target=".el-main" class="backtop"></el-backtop>
   </div>
@@ -61,7 +50,7 @@ export default {
   components: { MusicList },
   computed: {
     length () {
-      return (!this.$store.state.isLogin) ? 0 : this.$store.state.historyList.length
+      return this.$store.state.historyList.length
     }
   },
   methods: {

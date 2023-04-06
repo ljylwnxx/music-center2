@@ -47,10 +47,6 @@
           </div>
           <!--收藏，个人主页按钮  -->
           <div class="info-btn">
-            <button class="btn btn-white mleft-10" @click="subArtists">
-              <span v-if="!isSub" ><i class="el-icon-folder-add"></i>收藏</span>
-              <span v-else><i class="el-icon-folder-checked"></i> 已收藏</span>
-            </button>
             <button class="btn btn-white mleft-10" v-if="showPriMsg" @click="toUserDetail">
               <i class="el-icon-user"></i>
               个人主页
@@ -71,7 +67,6 @@
 import {
   getArtistDetail,
   getSubArtists,
-  subArtists,
   getArtistFollowCount
 } from '@/api/api_artist'
 import ArtTabsMenu from '../../components/menu/ArtTabsMenu'
@@ -145,34 +140,6 @@ export default {
       const res = await getSubArtists()
       if (res.data.code !== 200) { return }
       this.subList = Object.freeze(res.data.data)
-    },
-    // 收藏/取消收藏歌手
-    async subArtists () {
-      if (!this.$store.state.isLogin) { return this.$message.warning('请先登录') }
-      let cancel = false
-      if (this.isSub) {
-        await this.$confirm('确认取消收藏吗？', '确认信息', {
-          distinguishCancelAndClose: true,
-          confirmButtonText: '确认',
-          cancelButtonText: '放弃'
-        })
-          .then(() => {
-            cancel = false
-          })
-          .catch((action) => {
-            cancel = true
-            this.$message({
-              type: 'info',
-              message: action === 'cancel' ? '取消' : '出错'
-            })
-          })
-      }
-      if (cancel) return
-      let t = this.isSub ? 0 : 1
-      const res = await subArtists(this.id, t)
-      if (res.data.code !== 200) { return this.$message.error('操作失败') }
-      this.$message.success(`${t === 1 ? '收藏' : '取消'}成功`)
-      this.getSubArtists()
     },
     // 用户详情页
     toUserDetail () {

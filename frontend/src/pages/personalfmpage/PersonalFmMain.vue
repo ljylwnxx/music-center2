@@ -39,6 +39,8 @@
         </LyricWrap>
       </div>
     </div>
+    <!-- 分割线 -->
+    <div class="div-line mtop-20"></div>
     <!-- 评论 -->
     <div class="comment-view mtop-60">
       <!-- 评论组件 -->

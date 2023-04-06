@@ -12,27 +12,13 @@
         </el-carousel-item>
       </el-carousel>
     </div>
-    <!-- 未登录时热门推荐 -->
-    <div class="recommend-song-list" v-if="!this.$store.state.isLogin">
+    <!-- 热门推荐 -->
+    <div class="recommend-song-list">
       <h2 class="font-20 font-bold pointer" @click="goToView">
         热门推荐
         <i class="iconfont icon-arrow-right"></i>
       </h2>
       <ImgList @clickImg="toPlayListDetail" :list="recSongsList" type="playlist">
-        <template v-slot="{ item }">
-          <div class="text-hidden">
-            {{ item.name }}
-          </div>
-        </template>
-      </ImgList>
-    </div>
-    <!-- 登录时推荐歌单 -->
-    <div class="recommend-song-list" v-else>
-      <h2 class="font-20 font-bold pointer" @click="goToView">
-        推荐歌单
-        <i class="iconfont icon-arrow-right"></i>
-      </h2>
-      <ImgList @clickImg="toPlayListDetail" :list="recoList" type="playlist">
         <template v-slot="{ item }">
           <div class="text-hidden">
             {{ item.name }}
