@@ -101,19 +101,23 @@ export default {
     // 获取歌手分类列表
     async getArtistList () {
       this.isLoading = true
-      if (this.mode === MODE_FIRST) this.queryInfo.offset = 0
+      // if (this.mode === MODE_FIRST) this.queryInfo.offset = 0
       const res = await getArtistList(this.queryInfo)
+      console.log(res,'res')
       if (res.data.code !== 200) { return this.$message.error('获取失败') }
-      this.mode === MODE_FIRST ? this.artistList = res.data.artists : this.artistList.push(...res.data.artists)
+      // this.mode === MODE_FIRST ? this.artistList = res.data.artists : this.artistList.push(...res.data.artists)
+      this.artistList.push(...res.data.artists)
+      console.log(this.mode, 'this.mode')
+      console.log(this.artistList, 'this.artistList')
       this.hasMore = res.data.more
       if (this.mode === MODE_FIRST) {
         this.isLoading = false
       } else {
         setTimeout(() => {
-          this.isLoading = false
+          this.isLoading = true
         }, 2000)
       }
-      this.mode = MODE_FIRST
+      // this.mode = MODE_FIRST
     },
     load (num) {
       if (this.isLoading) return

@@ -49,7 +49,7 @@
           <!-- 粉丝数 -->
           <div class="num-item">
             <el-tag type="success" class="item-text font-12">粉丝</el-tag>
-            <el-tag type="success" effect="plain" class="font-20 font-bold" >{{ info.followeds }}</el-tag>
+            <el-tag type="success" effect="plain" class="font-20 font-bold" >{{ info.followeds | countFormat}}</el-tag>
           </div>
         </div>
         <!-- 所在地区 -->
@@ -80,25 +80,28 @@
     </div>
     <!-- 创建歌单 -->
     <div class="mtop-20" v-show="showtab === 1">
-      <ImgList @clickImg="toPlayListDetail" :list="creList" type="playlist">
-        <template v-slot="{ item }">
-          <div class="text-hidden">
-            {{ item.name }}
-          </div>
-        </template>
-      </ImgList>
+      <div v-if="creList.length !== 0">
+        <ImgList @clickImg="toPlayListDetail" :list="creList" type="playlist">
+          <template v-slot="{ item }">
+            <div class="text-hidden">
+              {{ item.name }}
+            </div>
+          </template>
+        </ImgList>
+      </div>
+      <div v-else>该用户没有创建的歌单或用户设置了隐私模式</div>
     </div>
     <!-- 收藏歌单 -->
     <div class="mtop-20" v-show="showtab === 2">
-    <div v-if="subList.length !== 0">
-       <ImgList @clickImg="toPlayListDetail" :list="subList" type="playlist">
-        <template v-slot="{ item }">
-          <div class="text-hidden">
-            {{ item.name }}
-          </div>
-        </template>
-      </ImgList>
-    </div>
+      <div v-if="subList.length !== 0">
+        <ImgList @clickImg="toPlayListDetail" :list="subList" type="playlist">
+          <template v-slot="{ item }">
+            <div class="text-hidden">
+              {{ item.name }}
+            </div>
+          </template>
+        </ImgList>
+      </div>
       <div v-else>该用户没有收藏的歌单或用户设置了隐私模式</div>
     </div>
   </div>
@@ -107,8 +110,7 @@
 <script>
 import {
   getUserDetail,
-  getUserPlayList,
-  follow
+  getUserPlayList
 } from '@/api/api_user'
 import { httpGet } from '@/utils/axios.js'
 import AlbumTabsMenu from '../../components/menu/AlbumTabsMenu'
@@ -192,7 +194,8 @@ export default {
         .then(res => {
           let data = res.data
           let province = data.find(item => item.value === (this.info.province).toString()) || {}
-          let city = (province.children || []).find(item => item.value === JSON.stringify(this.info.city))
+          let datacity = (province?.children || []).find(item => item.value === JSON.stringify(this.info.city) || {})
+          let city = (datacity?.children || []).find(item => item.value === JSON.stringify(this.info.city) || {})
           this.region = province && city ? province.label + city.label : '未知'
         })
     },

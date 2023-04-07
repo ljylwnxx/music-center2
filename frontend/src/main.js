@@ -14,6 +14,7 @@ import VueLazyLoad from 'vue-lazyload'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
+
 import {Table, TableColumn} from 'element-ui-hzx'
 import "element-ui-hzx/lib/theme-default/table.css"
 import "element-ui-hzx/lib/theme-default/table-column.css"

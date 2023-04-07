@@ -14,7 +14,6 @@ import AllMv from '@/pages/mv/AllMv'
 import TopMv from '@/pages/mv/TopMv'
 import VideoDetail from '@/pages/mv/VideoDetail'
 import Search from '@/pages/search/Search'
-import UserEdit from '@/pages/user/UserEdit'
 import HotComment from '@/pages/hotcomment/HotComment'
 import PersonalRecommend from '@/pages/home/PersonalRecommend'
 import PlayList from '@/pages/playlist/PlayList'
@@ -46,25 +45,25 @@ export default new Router({
             { path: '/personalrecommend', component: PersonalRecommend }
           ]
         },
-        /* Mv页 */
+        /* 歌单页 */
         {
           path: '/playlist',
           name: 'playlist',
           component:  PlayList,
         },
-        /* Mv页 */
+        /* 排行榜页 */
         {
           path: '/toplist',
           name: 'toplist',
           component: TopList,
         },
-        /* Mv页 */
+        /* 歌手页 */
         {
           path: '/artistlist',
           name: 'artistlist',
           component: ArtistList,
         },
-        /* Mv页 */
+        /* 最新音乐页 */
         {
           path: '/newmusic',
           name: 'newmusic',
@@ -122,7 +121,7 @@ export default new Router({
           component: AlbumDetail,
           props: true
         },
-        // 视频和MV详情页
+        // MV详情页
         {
           path: 'videodetail/:type/:id',
           component: VideoDetail,
@@ -140,10 +139,6 @@ export default new Router({
           path: 'search/:key',
           component: Search,
           props: true
-        },
-        {
-          path: '/useredit',
-          component: UserEdit
         },
         {
           path: 'userdetail/:id',
