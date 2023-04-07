@@ -75,11 +75,11 @@
 <script>
 import {
   getAlbumDetail,
-  getAlbumDynamic,
-  getCollectAlbum
+  getAlbumDynamic
 } from '@/api/api_album'
 import Tag from '../../components/Tag/Tag'
 import AlbumTabsMenu from '../../components/menu/AlbumTabsMenu'
+import TabsMenu from '@/components/menu/TabsMenu'
 import MusicList from '../../components/list/MusicList'
 import Comment from '../../components/comment/Comment'
 import {tranferMusicData} from '../../utils/constant'
@@ -95,7 +95,8 @@ export default {
     Tag,
     AlbumTabsMenu,
     MusicList,
-    Comment
+    Comment,
+    TabsMenu
   },
   watch: {
     id () {

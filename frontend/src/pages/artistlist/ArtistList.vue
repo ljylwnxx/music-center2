@@ -6,7 +6,7 @@
       <div class="radio-list">
         <span class="w-60">语种：</span>
         <el-radio-group v-model="queryInfo.area">
-          <el-radio :label="ar.id" v-for="ar in artistData.area" :key="`ar_${ar.id}`">
+          <el-radio :label="ar.id" v-for="ar in artistData.area" :key="`ar-${ar.id}`">
             {{ ar.value }}
           </el-radio>
         </el-radio-group>
@@ -101,23 +101,19 @@ export default {
     // 获取歌手分类列表
     async getArtistList () {
       this.isLoading = true
-      // if (this.mode === MODE_FIRST) this.queryInfo.offset = 0
+      if (this.mode === MODE_FIRST) this.queryInfo.offset = 0
       const res = await getArtistList(this.queryInfo)
-      console.log(res,'res')
       if (res.data.code !== 200) { return this.$message.error('获取失败') }
-      // this.mode === MODE_FIRST ? this.artistList = res.data.artists : this.artistList.push(...res.data.artists)
-      this.artistList.push(...res.data.artists)
-      console.log(this.mode, 'this.mode')
-      console.log(this.artistList, 'this.artistList')
+      this.mode === MODE_FIRST ? this.artistList = res.data.artists : this.artistList.push(...res.data.artists)
       this.hasMore = res.data.more
       if (this.mode === MODE_FIRST) {
         this.isLoading = false
       } else {
         setTimeout(() => {
-          this.isLoading = true
+          this.isLoading = false
         }, 2000)
       }
-      // this.mode = MODE_FIRST
+      this.mode = MODE_FIRST
     },
     load (num) {
       if (this.isLoading) return

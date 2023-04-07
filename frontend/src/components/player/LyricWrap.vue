@@ -161,6 +161,6 @@ export default {
 .lyric_active {
   font-weight: bold;
   font-size: 15px;
-  color: #000;
+  color: #778f3d;
 }
 </style>
